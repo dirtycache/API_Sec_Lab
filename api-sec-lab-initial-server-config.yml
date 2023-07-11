@@ -70,9 +70,16 @@
       pip:
         name: docker
 
+    - name: Log into private registry and force re-authorization
+      community.docker.docker_login:
+        registry_url: {{ akamai_private_git }}
+        username: {{ akamai_collector_name|quote }}
+        password: {{ akamai_password|quote }}
+        reauthorize: true
+
     - name: Deploy First VAmPI Instance on Port 5000
       docker_container:
-        image: erev0s/vampi:latest
+        image: {{ akamai_private_git }}/vampi:latest
         name: vampi01
         state: started
         ports:
@@ -80,7 +87,7 @@
     
     - name: Deploy Second VAmPI Instance on Port 5001
       docker_container:
-        image: erev0s/vampi:latest
+        image: {{ akamai_private_git }}/vampi:latest
         name: vampi02
         state: started
         ports:
