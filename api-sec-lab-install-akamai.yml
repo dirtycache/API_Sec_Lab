@@ -1,0 +1,55 @@
+---
+- hosts: akamai
+  become: true
+
+  tasks:
+
+  - name: Creating subfolders
+    file:
+      path: "{{ item }}"
+      state: directory
+    loop:
+      - /tmp/neosec
+      - /home/labuser/neosec
+
+  - name: Download NeoSec installer
+    ansible.builtin.get_url:
+      url: https://artifacts.neosec.com/installer/node-installer
+      dest: /tmp/neosec/installer
+      mode: '0744'
+
+  - name: Run NeoSec installer
+    ansible.builtin.command: "/tmp/neosec/installer install yum -username {{ akamai_collector_name|quote }} -password {{ akamai_source_id|quote }} -source-id {{ akamai_source_id|quote }} -collector-name wwt_lab_node_1"
+
+  #Tokenization stage
+
+  - name: Create the Master key
+    ansible.builtin.command: "/usr/sbin/neosec-node-manager neotok create-enc-conf --gen-master-key --output ./enc.conf"
+    args:
+      chdir: /home/labuser/neosec
+      creates: /home/labuser/neosec/enc.conf
+
+  - name: Move master key
+    ansible.builtin.command: "mv /home/labuser/neosec/master.key /etc/neosec-node-manager/master.key"
+    args:
+      creates: /etc/neosec-node-manager/master.key
+
+  - name: Change owner and permisions on master key
+    ansible.builtin.file:
+      path: /etc/neosec-node-manager/master.key
+      owner: neosec
+      group: logstash
+      mode: '0440'
+  
+  - name: Provision encryption conf
+    ansible.builtin.command: "/usr/sbin/neosec-node-manager neotok provision-enc-conf --api-key {{ akamai_password|quote }} --path /home/labuser/neosec/enc.conf"
+    args:
+      chdir: /home/labuser/neosec
+
+  - name: Verify Status of Node
+    ansible.builtin.command: "/usr/sbin/neosec-node-manager neotok status --api-key {{ akamai_password|quote }}"
+    register: statusoutput
+
+  - name: Print node status
+    ansible.builtin.debug:
+      var: statusoutput

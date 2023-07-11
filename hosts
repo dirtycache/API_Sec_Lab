@@ -1,0 +1,8 @@
+[apiservers]
+api-server-01   ansible_host=10.50.0.12 ansible_user=labuser
+
+[bigip]
+bigip-ltm-01    ansible_host=10.50.0.13 ansible_user=labuser
+
+[akamai]
+akamai-api-sec  ansible_host=10.50.0.10 ansible_user=labuser

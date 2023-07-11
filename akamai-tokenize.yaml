@@ -1,0 +1,37 @@
+---
+- name: Tokenize Akamai API Security
+  hosts: akamai
+  become: true
+
+  tasks:
+
+  - name: Create the Master key
+    ansible.builtin.command: "/usr/sbin/neosec-node-manager neotok create-enc-conf --gen-master-key --output ./enc.conf"
+    args:
+      chdir: /home/labuser/neosec
+      creates: /home/labuser/neosec/enc.conf
+
+  - name: Move master key
+    ansible.builtin.command: "mv /home/labuser/neosec/master.key /etc/neosec-node-manager/master.key"
+    args:
+      creates: /etc/neosec-node-manager/master.key
+
+  - name: Change owner and permisions on master key
+    ansible.builtin.file:
+      path: /etc/neosec-node-manager/master.key
+      owner: neosec
+      group: logstash
+      mode: '0440'
+  
+  - name: Provision encryption conf
+    ansible.builtin.command: "/usr/sbin/neosec-node-manager neotok provision-enc-conf --api-key {{ akamai_password|quote }} --path /home/labuser/neosec/enc.conf"
+    args:
+      chdir: /home/labuser/neosec
+
+  - name: Verify Status of Node
+    ansible.builtin.command: "/usr/sbin/neosec-node-manager neotok status --api-key {{ akamai_password|quote }}"
+    register: statusoutput
+
+  - name: Print node status
+    ansible.builtin.debug:
+      var: statusoutput

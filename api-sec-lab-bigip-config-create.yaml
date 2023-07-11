@@ -1,0 +1,95 @@
+---
+- name: Create a BIG-IP configuration for API Lab
+  hosts: bigip
+  connection: local
+
+  vars:
+    provider:
+      password: "{{ bigip_password }}"
+      server: "{{ bigip_ip }}"
+      user: "{{ bigip_user }}"
+      validate_certs: no
+      server_port: 443 
+
+  tasks:
+
+    - name: Create Akamai API Security Collector pool
+      bigip_pool:
+        state: present
+        monitor_type: single
+        monitors:
+        - tcp
+        provider: "{{ provider }}"
+        lb_method: round-robin
+        name: akamai-collector-pool
+      delegate_to: localhost
+
+    - name: Create Akamai iRule
+      bigip_irule:
+        module: ltm
+        name: akamai-logger
+        src: files/akamai-logging.irule
+        provider: "{{ provider }}"
+      delegate_to: localhost
+
+    - name: Create VAmPI pool
+      bigip_pool:
+        state: present
+        monitor_type: single
+        monitors:
+        - http
+        provider: "{{ provider }}"
+        lb_method: round-robin
+        name: vampi-pool
+      delegate_to: localhost
+
+    - name: Add members to Akamai API Security Collector pool
+      bigip_pool_member:
+        provider: "{{ provider }}"
+        description: "akamai-collector {{ item.name }}"
+        host: "{{ item.host }}"
+        name: "{{ item.name }}"
+        pool: akamai-collector-pool
+        port: 5044
+      with_items:
+        - host: 10.56.20.131
+          name: akamai-api-sec
+      delegate_to: localhost
+
+    - name: Create nodes for VAmPI
+      bigip_node:
+        host: 192.168.200.10
+        name: vampi01
+        provider: "{{ provider }}"
+
+    - name: Add members to VAmPI http pool
+      bigip_pool_member:
+        provider: "{{ provider }}"
+        pool: vampi-pool
+        aggregate:
+        - host: 192.168.200.10
+          port: 5000
+          description: VAmPI01
+          name: vampi01
+        - host: 192.168.200.10
+          port: 5001
+          name: vampi01
+          description: VAmPI02
+        replace_all_with: yes
+      delegate_to: localhost
+
+    - name: Create the VAmPI VIP
+      bigip_virtual_server:
+        provider: "{{ provider }}"
+        description: VIP for VAmPI
+        destination: 10.56.10.45
+        name: vampi-vip
+        pool: vampi-pool
+        port: 5000
+        snat: Automap
+        profiles:
+          - mptcp-mobile-optimized
+          - http
+        irules:
+          - akamai-logger
+      delegate_to: localhost

@@ -1,0 +1,109 @@
+---
+- name: Reset a cBIP configuration for API Lab
+  hosts: bigip
+  connection: local
+
+  vars:
+    provider:
+      password: "{{ bigip_password }}"
+      server: "{{ bigip_ip }}"
+      user: "{{ bigip_user }}"
+      validate_certs: no
+      server_port: 443 
+    bigip_hostname: "bigip-ltm-01.apisec.local"
+
+  tasks:
+#    - name: Reset to base configuration
+#      bigip_config:
+#          reset: yes
+#          save: yes
+#          provider: "{{provider}}"
+#      delegate_to: localhost
+
+    - name: Set the bigip-hostname
+      bigip_hostname:
+          hostname: "{{ bigip_hostname }}"
+          provider: "{{provider}}"
+      delegate_to: localhost
+
+    - name: License a BIG-IP
+      bigip_device_license:
+        license_key: "{{bigip_license}}"
+        accept_eula: yes
+        state: "latest"
+        provider: "{{ provider }}"
+      delegate_to: localhost
+
+    - name: Pause 1 minute to allow the license to reload or tmsh might not be up
+      pause:
+           minutes: 1
+
+    - name: Configure vlan internal
+      bigip_vlan:
+          name: "F5_INT"
+          tag: "4093"
+          untagged_interfaces: 1.1
+          provider: "{{provider}}"
+      delegate_to: localhost
+
+    - name: Configure vlan external
+      bigip_vlan:
+          name: "F5_EXT"
+          tag: "4094"
+          untagged_interfaces: 1.2
+          provider: "{{provider}}"
+      delegate_to: localhost
+
+#    - name: Configure vlan ha
+#      bigip_vlan:
+#          name: "F5_HA"
+#          tag: "4092"
+#          untagged_interfaces: 1.3
+#          provider: "{{provider}}"
+#      delegate_to: localhost
+
+    #create self IP's
+    - name: Create external self
+      bigip_selfip:
+          address: "192.168.100.13"
+          name: "external_self"
+          netmask: "255.255.255.0"
+          vlan: "F5_EXT"
+          provider: "{{provider}}"
+      delegate_to: localhost
+
+    - name: Create internal self
+      bigip_selfip:
+          address: "192.168.200.13"
+          name: "internal_self"
+          netmask: "255.255.255.0"
+          vlan: "F5_INT"
+          provider: "{{provider}}"
+      delegate_to: localhost
+
+    - name: Mark setup as having been run so it doesn't display that on login
+      bigip_command:
+          commands: modify sys db setup.run value false
+          provider: "{{provider}}"
+      delegate_to: localhost
+
+    #create users
+    - name: Add the user labuser as admin
+      bigip_user:
+        username_credential: labuser
+        password_credential: "{{ labuser_password }}"
+        full_name: Lab User
+        partition_access:
+          - all:admin
+        update_password: always
+        shell: tmsh
+        state: present
+        provider: "{{provider}}"
+      delegate_to: localhost
+
+    #save changes to config
+    - name: Save config to file
+      bigip_config:
+          save: yes
+          provider: "{{provider}}"
+      delegate_to: localhost

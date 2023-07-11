@@ -1,0 +1,27 @@
+---
+- name: Upload and Upgrade BIGIP
+  hosts: bigip
+  connection: local
+
+  vars:
+    provider:
+      password: "{{ bigip_password }}"
+      server: "{{ bigip_ip }}"
+      user: "{{ bigip_user }}"
+      validate_certs: no
+      server_port: 443 
+
+  tasks:
+    - name: Upload absolute image to the BIG-IP
+      bigip_software_image:
+        image: /home/labuser/Downloads/BIGIP-17.1.0.2-0.0.2.iso
+        provider: "{{ provider }}"
+      delegate_to: localhost
+
+    - name: Ensure an existing image is activated in specified volume
+      bigip_software_install:
+        image: BIGIP-17.1.0.2-0.0.2.iso
+        state: activated
+        volume: HD1.3
+        provider: "{{ provider }}"
+      delegate_to: localhost
