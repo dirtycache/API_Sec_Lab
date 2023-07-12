@@ -1,0 +1,20 @@
+---
+- name: Setup benign data scripts on Akamai API Security Node
+  hosts: akamai
+  become: true
+
+  tasks:
+
+    - name: Upgrade all packages
+      ansible.builtin.yum:
+        name: '*'
+        state: latest
+
+    - name: Install python3-pip package
+      ansible.builtin.yum:
+        name: python3-pip
+        state: latest
+
+    - name: Install specified python requirements
+      ansible.builtin.pip:
+        requirements: /wwt-lab-file/requirements    
