@@ -80,7 +80,9 @@
     - name: Pull Akamai's Docker Image of VAmPI
       docker_image:
         name: vampi:latest
-        repository: "{{ akamai_private_git }}"
+        repository: "{{ akamai_private_git }}"/vampi
+        tag: latest
+        source: pull
 
     - name: Deploy First VAmPI Instance on Port 5000
       docker_container:
