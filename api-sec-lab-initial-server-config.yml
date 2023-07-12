@@ -77,9 +77,14 @@
         password: {{ akamai_password|quote }}
         reauthorize: true
 
+    - name: Pull Akamai's Docker Image of VAmPI
+      docker_image:
+        name: vampi:latest
+        repository: {{ akamai_private_git }}
+
     - name: Deploy First VAmPI Instance on Port 5000
       docker_container:
-        image: "{{ akamai_private_git }}"/vampi:latest
+        image: vampi:latest
         name: vampi01
         state: started
         ports:
@@ -87,7 +92,7 @@
     
     - name: Deploy Second VAmPI Instance on Port 5001
       docker_container:
-        image: "{{ akamai_private_git }}"/vampi:latest
+        image: vampi:latest
         name: vampi02
         state: started
         ports:
