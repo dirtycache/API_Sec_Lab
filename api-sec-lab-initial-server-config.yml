@@ -73,14 +73,14 @@
     - name: Log into private registry and force re-authorization
       community.docker.docker_login:
         registry_url: "{{ akamai_private_git }}"
-        username: {{ akamai_collector_name|quote }}
-        password: {{ akamai_password|quote }}
+        username: "{{ akamai_collector_name|quote }}"
+        password: "{{ akamai_password|quote }}"
         reauthorize: true
 
     - name: Pull Akamai's Docker Image of VAmPI
       docker_image:
         name: vampi:latest
-        repository: {{ akamai_private_git }}
+        repository: "{{ akamai_private_git }}"
 
     - name: Deploy First VAmPI Instance on Port 5000
       docker_container:
