@@ -22,7 +22,7 @@
 
     - name: Install specified python requirements
       ansible.builtin.pip:
-        requirements: /home/labuser/wwt-lab-files/requirements
+        requirements: /home/labuser/wwt-lab-files/requirements.txt
 
     - name: Copy and Execute the script 
       #chdir: /home/labuser/wwt-lab-files/ 
