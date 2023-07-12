@@ -3,9 +3,6 @@ set -e;
 
 cd /wwt-lab-files/
 
-sudo yum install python3-pip -y
-sudo pip3 install -r requirements.txt
-
 timeout=600  # timeout in seconds
 end_time=$((SECONDS+timeout))
 
