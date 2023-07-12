@@ -75,14 +75,7 @@
         registry_url: "{{ akamai_private_git }}"
         username: "{{ akamai_user|quote }}"
         password: "{{ akamai_password|quote }}"
-        #reauthorize: true
-
-    - name: Pull Akamai's Docker Image of VAmPI
-      docker_image:
-        name: vampi:latest
-        repository: docker-registry.neosec.com/vampi
-        tag: latest
-        source: pull
+        reauthorize: true
 
     - name: Deploy First VAmPI Instance on Port 5000
       docker_container:
