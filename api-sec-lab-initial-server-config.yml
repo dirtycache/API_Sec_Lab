@@ -75,7 +75,7 @@
         registry_url: "{{ akamai_private_git }}"
         username: "{{ akamai_collector_name|quote }}"
         password: "{{ akamai_password|quote }}"
-        reauthorize: true
+        #reauthorize: true
 
     - name: Pull Akamai's Docker Image of VAmPI
       docker_image:
