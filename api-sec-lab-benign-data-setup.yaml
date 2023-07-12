@@ -24,6 +24,6 @@
       ansible.builtin.pip:
         requirements: /home/labuser/wwt-lab-files/requirements
 
-     - name: Copy and Execute the script 
-       script: /home/labuser/Ansible/API_Sec_Lab/files/benign-data.sh
-       chdir: /home/labuser/wwt-lab-files/    
+    - name: Copy and Execute the script 
+      script: /home/labuser/Ansible/API_Sec_Lab/files/benign-data.sh
+      chdir: /home/labuser/wwt-lab-files/    
