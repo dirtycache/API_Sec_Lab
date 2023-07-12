@@ -15,6 +15,15 @@
         name: python3-pip
         state: latest
 
+    - name: Extract wwt-lab-files.zip in the labuser folder
+      ansible.builtin.unarchive:
+        src: /home/labuser/Ansible/API_Sec_Lab/files/wwt-lab-files.zip
+        dest: /home/labuser/
+
     - name: Install specified python requirements
       ansible.builtin.pip:
-        requirements: /wwt-lab-file/requirements    
+        requirements: /home/labuser/wwt-lab-files/requirements
+
+     - name: Copy and Execute the script 
+       script: /home/labuser/Ansible/API_Sec_Lab/files/benign-data.sh
+       chdir: /home/labuser/wwt-lab-files/    
