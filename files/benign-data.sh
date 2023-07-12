@@ -1,7 +1,7 @@
 set -x;
 set -e;
 
-cd /wwt-lab-files/
+cd /home/labuser/wwt-lab-files/
 
 timeout=600  # timeout in seconds
 end_time=$((SECONDS+timeout))
