@@ -73,7 +73,7 @@
     - name: Log into private registry and force re-authorization
       community.docker.docker_login:
         registry_url: "{{ akamai_private_git }}"
-        username: "{{ akamai_collector_name|quote }}"
+        username: "{{ akamai_user|quote }}"
         password: "{{ akamai_password|quote }}"
         #reauthorize: true
 
