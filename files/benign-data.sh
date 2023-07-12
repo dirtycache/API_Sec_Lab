@@ -1,6 +1,8 @@
 set -x;
 set -e;
 
+apikey=8q26WccZLc1Y2Al7wf1zq4DsmNIDfppi8NDLRPGn
+
 cd /home/labuser/wwt-lab-files/
 
 timeout=600  # timeout in seconds
