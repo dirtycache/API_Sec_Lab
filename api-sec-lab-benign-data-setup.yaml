@@ -19,6 +19,7 @@
       ansible.builtin.unarchive:
         src: /home/labuser/Ansible/API_Sec_Lab/files/wwt-lab-files.zip
         dest: /home/labuser/
+        creates: /home/labuser/wwt-lab-files/
 
 #    - name: Install specified python requirements
 #      ansible.builtin.pip:
@@ -26,5 +27,9 @@
 
     - name: Copy and Execute the script 
       #chdir: /home/labuser/wwt-lab-files/ 
-      script: /home/labuser/Ansible/API_Sec_Lab/files/benign-data.sh
-   
+      ansible.builtin.copy:
+        src: /home/labuser/Ansible/API_Sec_Lab/files/benign-data.sh
+        dest: /home/labuser/wwt-lab-files/benign-data.sh
+        owner: labuser
+        group: labuser
+        mode: '0774'

@@ -17,7 +17,8 @@ while [ $SECONDS -lt $end_time ]; do
         break
     else
         echo "Collector is not running yet. Retrying in 1 second..."
-        sleep 1
+        #sleep 1
+        break
 	    
     fi
 done
