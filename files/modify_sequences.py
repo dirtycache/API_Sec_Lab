@@ -73,7 +73,7 @@ def modify_log_file():
     acc_seq = 0
     final_array = []
 
-    with open("/wwt-lab-files/basic.json", "r") as f:
+    with open("/home/labuser/wwt-lab-files/basic.json", "r") as f:
         for line in f.readlines():
             json_obj = json.loads(line)
             seq_number_header = json_obj["http"]["request"]["headers"]["seq_number"]

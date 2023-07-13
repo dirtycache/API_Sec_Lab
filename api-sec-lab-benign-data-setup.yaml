@@ -25,11 +25,26 @@
 #      ansible.builtin.pip:
 #        requirements: /home/labuser/wwt-lab-files/requirements.txt
 
-    - name: Copy and Execute the script 
-      #chdir: /home/labuser/wwt-lab-files/ 
+    - name: Copy the updated script 
       ansible.builtin.copy:
         src: /home/labuser/Ansible/API_Sec_Lab/files/benign-data.sh
         dest: /home/labuser/wwt-lab-files/benign-data.sh
+        owner: labuser
+        group: labuser
+        mode: '0774'
+
+    - name: Copy the updated 1 hour traffic  
+      ansible.builtin.copy:
+        src: /home/labuser/Ansible/API_Sec_Lab/files/one_hour_traffic.py
+        dest: /home/labuser/wwt-lab-files/one_hour_traffic.py
+        owner: labuser
+        group: labuser
+        mode: '0774'
+
+    - name: Copy the sequence modify script
+      ansible.builtin.copy:
+        src: /home/labuser/Ansible/API_Sec_Lab/files/modify_sequences.py
+        dest: /home/labuser/wwt-lab-files/modify_sequences.py
         owner: labuser
         group: labuser
         mode: '0774'

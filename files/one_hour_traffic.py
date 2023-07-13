@@ -72,7 +72,7 @@ def create_traffic():
     ts_index = 1  # generated_timestamps.size
     final_array = []
 
-    with open("/wwt-lab-files/modified_30d_traffic.txt", "r") as f:
+    with open("/home/labuser/wwt-lab-files/modified_30d_traffic.txt", "r") as f:
         content = f.readlines()
 
     admin_numbers = set()
@@ -111,7 +111,7 @@ def create_traffic():
             else:
                 continue
 
-    with open("/wwt-lab-files/benign_traffic/modified_1h_traffic.txt", "a+") as f:
+    with open("/home/labuser/wwt-lab-files/benign_traffic/modified_1h_traffic.txt", "a+") as f:
         for line in final_array:
             f.write(f"{json.dumps(line)}\n")
 
