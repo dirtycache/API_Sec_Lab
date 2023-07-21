@@ -106,3 +106,39 @@ Creation/Modification of Automated Actions
 - Akamai is actively working on adding many more response integrations
 
 #### Exercise 2.7 - Alert Types
+
+1. Click on the **Alerts** tab
+
+![Alerts Page](media/alerts-page.jpg)
+
+- The Akamai API Security platform differentiates between 2 types of alerts
+    - Posture: Those related to the API's risk posture (the endpoint is vulnerable and something bad might happen)
+    - Runtime: Those that trigger on actual API consumer behavior (someone is doing something bad to your API)
+- In the **All Alerts** sub-tab you can see by scrolling down **No Rate Limit** and **Weak Authentication** alerts, which are API risk posture alerts
+    - These are usually handled by API developers and security architects, who set up automated action rules to open Jira tickets when these things arise
+- You can also see runtime alerts such as **Data Scraping** and **Abnormal Location**, which are typically handled by the SOC team (who also love to automate their response)
+
+#### Exercise 2.8 - Create Alert Filters
+
+1. Click on the **Alerts** tab
+2. Click on the filter of the **Type** tab
+3. Select **Posture** only and click **Apply**
+4. Click on the filter of the **Status** tab
+5. Select **Open** only and click **Apply**
+6. Click **Save Filters** as a tab
+7. Name the filter *Posture* and click **Save**
+8. Repeat steps 2-7 for open runtime alerts and name the tab *Runtime*
+
+Filter Alerts
+![Filtering Alerts](media/apply-filters-1.jpg)
+
+Saving Filters
+![Saving Filters](media/save-filter.jpg)
+
+Alert Tabs
+![Alert Tabs](media/filter-tabs.jpg)
+
+- The **Alerts** page allows filtering the alters by type, entity type, service, etc. 
+- You can save the filters for future reference
+- You can also share the filters with other users on the same tenant by sharing the link
+
