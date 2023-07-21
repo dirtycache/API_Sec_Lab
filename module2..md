@@ -211,3 +211,72 @@ Data Scraping
 - We can also see that these calls were made from a different IP and location (23.xxx - Puerto Rico)
 - At this point it is clear that there is some pattern of abuse where an attacker downloads all invoices by listing them first, then systematically accessing the invoices
 
+#### Exercise 2.14 - Data Scraping Remediation
+
+1. Click on the **GET** request around the data scraping alert. Show the extended *Kong Headers*
+
+![Kong Headers](media/kong-headers.jpg)
+
+2. Go to **Automated Actions** and show the *Block Data Scraping* action
+
+![Block Data Scraping](media/block-data-scraping.jpg)
+
+3. Go back to 383 timeline and *Data Scraping* alert
+4. Scroll to 03:44:31 and click on the first *GET* request
+5. Click on *Response*
+
+![Data Scraping Response](media/data-scraping-response.jpg)
+
+- The Akamai API Security platform has automatic remediation capabilities. We'll demonstrate remediation using the Kong API Gateway integration
+- We are displaying the additional headers added by Kong that enriches the request with the *user_id* and a hash of the API token
+- We can define an *Automated Action* rule that will automatically block IPs that will be marked with the *Data Scraping* alert
+- As you can see, after a delay of a few seconds, all of the data scraping requests from the IP 23.xxx are blocked (403)
+
+#### Exercise 2.15 - API Calls and Entities
+
+1. Scroll back up in the timeline and click on the *GET /v2/invoicing/invoices/{invoices_id}* entry just after the *Abnormal Location* alert
+2. Click the **Enrichment** tab and then the **Entities** tab
+
+![API Calls and Entities](media/api-calls-and-entities.jpg)
+
+- Fore each call (request/response pair) you can see all details/parameters - ware are now looking at the first invoice that was accessed
+- Since all data is enriched - you can click on the entit ID value for any log and be redirected to that entity's timeline page
+
+#### Exercise 2.16 - Business Entity
+
+1. Click the invoice ID link for the invoice ending with *BRIU* - its entity timeline will open in a new browser tab
+
+![Business Entity](media/business-entity.jpg)
+
+- Having pivoted to the invoice timeline, we can see all activity performed on the invoice
+- This is possible for any entity
+
+#### Exercise 2.17 - Query for Sequence
+
+1. Got back to the MerchantID 388 browser tab
+2. Check the checkboxes of *GET List invoice* and 2 following *GET Show invoice* calls
+3. Press the **Go To Query** button, which will open the Query page in a new browser tab
+
+![Go to Query](media/goto-query.jpg)
+
+##### Query Page
+
+1. Note that since we pivoted from a timeline with selected calls, all values are already filled in
+2. Press **Search** in the top right corner
+
+![Query Search](media/query-search.jpg)
+
+- The Query page provides an open-ended view into any observed user behavior. It also enables querying for sequences of actions, either by defining them or by referring to sequences that were previously defined
+- Since we pivoted from 3 *Show invoice* calls, the Query page has them listed one after the other, with the time range and entity type (MerchantID) and ID(388...) already filled in
+- This means we will see the calls for our 388... merchant, of course
+
+#### Exercise 2.18 - Query
+
+1. Clear the *ID* field and the *Time Range* field
+2. Press the **Search** buton again
+
+![Query Page](media/query-page.jpg)
+
+- We see that this behavior - getting a list of invoices and then showing 2 invoices - is something that happens in several merchants, not just our compromised 388... merchant
+- We can now pivot to any of these and investigate them in the contexct of the relvant merchant
+    - This is since all calls are enriched with entities, and in spite of not having any laerts for these other merchants
