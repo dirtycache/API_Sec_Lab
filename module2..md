@@ -280,3 +280,63 @@ Data Scraping
 - We see that this behavior - getting a list of invoices and then showing 2 invoices - is something that happens in several merchants, not just our compromised 388... merchant
 - We can now pivot to any of these and investigate them in the contexct of the relvant merchant
     - This is since all calls are enriched with entities, and in spite of not having any laerts for these other merchants
+
+#### Exercise 2.19 - Pivot to User Timeline
+
+1. Expand the third row, with MerchantID cba...
+2. Click the three-dot icon on the first call (GET /v2/invoicing/invoices) and click **Investigate MerchantID**
+
+![Pivot to User Timeline](media/pivot-to-user-timeline.jpg)
+
+- We are now investigating a similar sequence of calls, in this context of antoher merchant, who does not have any open alerts and typically connects from AWS eu-south-1
+- We can do this sort of pivoting to any entity, since all API activity data is stored enriched in the *data lake*
+
+![User Pivot](media/user-pivot.jpg)
+
+#### Exercise 2.20 - Tokenization
+
+***PREFACE***
+
+All senstive data is tokenized in the Akamai API Security Nodes on premises prior to sending data to the Akamai Cloud. Akamai Cloud, and subsequently, the Akamai API Security UI, contain tokenized values only.
+
+1. See the difference between the tokenized entity on the top *Query Parameter Fuzzing* alert compared to other entities
+
+![Tokenize vs Nontokenize](media/tokenize-1.jpg)
+
+2. Click the three-dot menu on the top *Query Parameter Fuzzing* alert
+3. Click *Investigate Merchant Id* to see the entity timeline
+4. Click (I) on a single request and show that the *Authorization* and the ‘query’ values are tokenized
+
+![Tokenized Entity](media/tokenize-2.jpg)
+
+- After finishing the POV, tokenization was activated on the *Payments* tenant
+- Since activation, all sensitive data in *Discovery* and *Alerts* is tokenized
+- Detokenization is only possible on the customer premises against the Akamai API Security Node
+
+#### Exercise 2.21 - Pen Tester Story
+
+1. Click on the **Alerts** tab
+2. Filter on *Open Runtime* alerts
+3. Click on the three-dot icon at the end of the *Query Parameter Fuzzing* alert row for merchant 1c4c
+4. Click on the *investigate IP* option
+
+![Pen Test Story](media/pen-tester-story.jpg)
+
+- In this example, a pen-tester created two merchant IDs - 1c4c… and 9342… from the same IP, and then started penetration testing the APIs
+- The pen tester probed the API by sending bad inputs to query parameters, triggering a *Query Parameter Fuzzing* alert
+- The pen tester then attempted to break the authentication by trying various passwords for one of his account - a *Brute Force Authentication Attempt* alert triggered
+- The pen tester attempted to access an endpoint which few users have access to and is therefore assumed to be a privileged endpoint (BFLA)
+- Following that, the pen tester created two orders using two different users and successfully managed to access the order created by one user from the other user. This is an exploitation of a BOLA vulnerability, which triggered the *Suspicious Data Access* alert
+- Finally, as all these actions generated a lot of errors, an *Excessive Actor Errors* alert triggered on the IP address the pen tester used
+
+#### Exercise 2.22 - Posture Alerts
+
+1. Click on the **Alerts** tab and then on the **Posture** sub-tab
+
+![Posture Alerts Page](media/posture-alerts.jpg)
+
+- Posture Alerts are about your API's risk posture
+- Two of the posture alerts are of the Shadow API family:
+    - Shadow Endpoint - accessing an undocumented endpoint
+    - Shadow Parameter - using an undocumented enpoint parameter
+- Note that two alerts above are posture alerts, so they don't appear on entity timelines (other than as calls) but rather on the endpoints themselves
