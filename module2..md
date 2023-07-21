@@ -154,3 +154,60 @@ Add Comment
 - For easier case management, a user can leave a comment on an Alert
 - When closing an alert or changing the severity, the user will be suggested to leave a comment
 
+#### Exercise 2.10 - Posture Alerts
+
+1. Click on the **Alerts** tab
+2. Filter on *Open Posture* alerts
+3. Click on the three-dot icon at the end of the *Shadow Endpoint* alret row for DEL...
+4. Click on the **Go to Endpoint** link
+
+Posture Alerts
+![Posture Alerts](media/posture-alerts.jpg)
+
+- Posture alerts relate to the APIs risk posture. They relate to the endpoint itself and not to a specific actor (user/ip/etc)
+- In this example, the Akamai API Security platform detected an endpoint that wasn't previously known or documented (wasnt' loaded in the pre-configuration) but an activity was spotted against it. For example, it can be an internal endpoint that was built for the UI and someone did some spoofing or wild guess and tried to use it
+- In this case, this endpoint will be added to the discovery tab with a *Shadow Endpoint* alert
+
+#### Exercise 2.11 - Runtime Alerts
+
+1. Click on the **Alerts** tab
+2. Click on the three-dot icon at the end of the *Token Reuse* alert row for MerchantID 388...
+
+Runtime Alerts
+![Runtime Alerts](media/runtime-alerts.jpg)
+
+- Since the Akamai API Security platform enriches all incoming logs with entity information - both actor entities (API Consumers) and business entities (API resources) - detection models trigger alerts involving one or more such entities
+- This means you can choose how to investigate the alert
+- We will pivot to investigating the *MerchantID*, which is the top-most API consumer entity (a merchant's activity spans many access tokens and can be from multiple IP addresses)
+
+#### Exercise 2.12 - Entity Timeline Page
+
+1. Expand the top bar to reveal the merchant's activity over time
+2. Scroll the timeline in the left bar to show all activity by the merchant
+
+Entity Timeline
+![Entity Timeline](media/entity-timeline.jpg)
+
+- Alerts are investigated in the context of an entity
+    - In this case, we pivoted to see the *Token Reuse* alert in the context of the *MerchantID* 388
+- The tob bar gives us information about the entity - its ID, the number of open alerts that triggered on it, its typical location, when the platform first and last saw activity from it, and the activity plotted on graphs
+- We see the entity's activity timeline, centered on the alert we pivoted to
+    - The timeline shows all of the user's behavior, before and after the alert, providing context for the investigation
+- The *Token Reuse* alert is an analytics alert that detects account takeover - where the same access token is being used from several IP addresses at the same time
+- Looking at the timeline, we can see that an *Impossible Time Travel* alert also triggered, indicating that the same user is connected from two different countries
+- Scrolling further up (back in time) you see that *Abnormal Location* and *New Header ofr Resource* alerts have also triggered on this merchant
+    - It is also evident that the merchant was mainly processing order transactions prior to these two alerts on *GET /v2/invoices*
+
+#### Exercise 2.13 - Data Scraping
+
+1. Toggle *Alerts only* above the timeline - you now see there's a *Data Scraping* alert as well on this merchant - click it and un-toggle *Alerts only*
+
+Data Scraping
+![Data Scraping](media/data-scraping.jpg)
+
+- The user harvested data, in this case by accessing an endpoint many times (compared to other API consumers), retieving large amounts of data
+- This is what typically happens after an account takeover, with the next steps being more *active* in nature, if the attacker managed to get the right level of authorization
+- We can see that these calls are made from Postman, rather than the regular user-agent used by the merchant (the Python requests library)
+- We can also see that these calls were made from a different IP and location (23.xxx - Puerto Rico)
+- At this point it is clear that there is some pattern of abuse where an attacker downloads all invoices by listing them first, then systematically accessing the invoices
+
