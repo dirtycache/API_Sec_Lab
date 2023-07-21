@@ -142,3 +142,15 @@ Alert Tabs
 - You can save the filters for future reference
 - You can also share the filters with other users on the same tenant by sharing the link
 
+#### Exercise 2.9 - Comments on Alerts
+
+1. Expand the **Token Reuse** alert
+2. See the two comments
+3. Click on **Add Comment** and add a comment
+
+Add Comment
+![Add Comment](media/add-comment.jpg)
+
+- For easier case management, a user can leave a comment on an Alert
+- When closing an alert or changing the severity, the user will be suggested to leave a comment
+
