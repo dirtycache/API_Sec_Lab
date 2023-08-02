@@ -28,11 +28,11 @@ Resource enumeration enable attackers to find endpoints and increase the attack 
 
 4. The output should look like this:
 
->Resource: /phpMyAdmin/ | 404
->Resource: /wp/ | 404
->Resource: /wordpress/ | 404
->Resource: /drupal/ | 404
->Resource: /cms/ | 404
+> Resource: /phpMyAdmin/ | 404
+> Resource: /wp/ | 404
+> Resource: /wordpress/ | 404
+> Resource: /drupal/ | 404
+> Resource: /cms/ | 404
 
 5. Go to Akamai API Security portal at [Akamai API Security Portal](https://app.neosec.com/)
 6. Log in with lab credentials from Lesson 1
