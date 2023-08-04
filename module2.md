@@ -9,8 +9,8 @@
 
 2. On the Home page you will see a dashboard view of your API landscape. It shows:
     - Alert Overview: Breakdown per label per severity
-        - Labels are a powerful and versatile concept in Akamai API Security, used to convey data classification, alert tagging, business impact, and anything the user chooses to
-        - Labels are both automatically assigned by the Akamai API Security for various entities (e.g. endpoints, alerts), and assigned by the user using automated action rules
+        - Labels are a powerful and versatile concept in Akamai API Security. They are used to convey data classification, alert tagging, business impact, and anything the user chooses to
+        - Labels are both automatically assigned by the Akamai API Security for various entities (e.g., endpoints, alerts), and assigned by the user using automated action rules
     - Top Alerting Users
     - Top Endpoints - which endpoints get the most requests
     - Recent Alerts
@@ -25,26 +25,26 @@
 
 ![Discovery Page](media/discovery-page.jpg)
 
-- Ingesting API activity data (e.g. mirrored traffic), the Akamai API Security platform atuomatically discovers all APIs, endpoints, and parameters, classifies the data that passes on them, and triggers alerts on risk posture and not folowing best practices
+- Ingesting API activity data (e.g., mirrored traffic), the Akamai API Security platform atuomatically discovers all APIs, endpoints, and parameters, classifies the data that passes on them, and triggers alerts on risk posture and deviation from best practices
 - The Discovery page shows the APIs as they are used in the real world, based on the system understanding described above:
     - Endpoints are grouped into APIs (AKA services)
     - The data on the page is always true for the time range selected
     - For every service, Akamai API Security sees:
         - The service name
-        - The service risk score at the end of the time range, and how it changed over the time range
+        - The service risk score at the end of the time range, and how it changed over the duration of time in the range
         - Data classification labels and API type classification labels
         - Service level labels. Note that two service belong to *Team Core* and one to *Team Auth*
         - Open posture alerts at the end of the time range
         - Open runtime alerts referencing this service's endpoints at the end of the time range
         - The number of endpoints in the service at the end of the time range, and how it changed over the time range
         - The number of calls, client-side and server-side errors
-    - This page can help you answer questions like:
+    - This Discovery page can help you answer questions like:
         - Which service is unders the most active development? (we can see the endpoint change)
         - Which service exposes PII? (using the labels)
         - Which service is being attacked the most? (you can see the number of calls and the errors, as well as the risk score)
 
 
-### Exercise 2.3 Downlaod the Swagger
+### Exercise 2.3 Download the Swagger
 
 1. Select the first 2 services by click on their radio buttons
 2. Click on **Swagger (2)'** download button
@@ -52,12 +52,12 @@
 ![Download Swagger File](media/download-swagger.jpg)
 
 - The Akamai API Security platform allows you to download the API inventory it created and continuously updates as a Swagger (OpenAPI Specification - or OAS) file
-- This is often useful for API developers supporting legacy APIs that are poorly documented or not documented at all
+- This is often useful for API developers supporting legacy APIs which are poorly documented or not documented at all
 
 
 ### Exercise 2.4 - Drill Down on the Authentication Service
 
-1. Click on the sort in the **Risk** column
+1. Click on Sort in the **Risk** column
 2. The **Authentication** service is now first, since it is the riskiest
 3. Click on it
 
@@ -77,9 +77,9 @@
 
 ![Token Endpoint](media/token-endpoint.jpg)
 
-- You get a plethora of information about each and every endpoint in your system
+- You get a plethora of information about all endpoints within your system
 - Including its open posture alerts at the end of the time range, which contribute to its risk score
-    - Naturally the place to view and manage alerts is in the **Alerts** page - syou you'll see them there too
+    - Naturally the place to view and manage alerts is in the **Alerts** page - so you will see them there too
     - For this specific endpoint, we see 2 **Posture** alerts, one of them being a **No Rate Limit** alert, as the Akamai API Security analytics engine learned that this specific endpoint seems to not have any rate limit or spike arrest threshold set
 - You can collapse the top bar and look at the endpoint's calls (request-response pairs) statistically, including the most common values
 
@@ -95,7 +95,7 @@ Automated Actions Page
 Creation/Modification of Automated Actions
 ![Automated Actions Creation/Modification](media/automated-action-2.jpg)
 
-- You can set up automated actions in the Akamai API Security platform will perform when alerts matching your very specific conditions are triggered
+- You can set up automated actions in the Akamai API Security platform will perform when alerts matching specific conditions are triggered
 - In this case we are looking at opening a Jira ticket in the company's *API* Jira project
 - The automated actions currently supported are:
     - Add a label - you can add labels to alerts, that downstream systems could use
@@ -103,7 +103,7 @@ Creation/Modification of Automated Actions
     - Send email - you may decide that some alerts are so important they should be sent by mail, either to a person or to a system (e.g. ServiceNow)
     - Trigger webhook - this can be used to integrate with anything
     - Open Jira ticket - shown here
-- Akamai is actively working on adding many more response integrations
+- Akamai is actively working on adding additional response integrations
 
 #### Exercise 2.7 - Alert Types
 
@@ -112,7 +112,7 @@ Creation/Modification of Automated Actions
 ![Alerts Page](media/alerts-page.jpg)
 
 - The Akamai API Security platform differentiates between 2 types of alerts
-    - Posture: Those related to the API's risk posture (the endpoint is vulnerable and something bad might happen)
+    - Posture: Those related to API risk posture (the endpoint is vulnerable and something bad might happen)
     - Runtime: Those that trigger on actual API consumer behavior (someone is doing something bad to your API)
 - In the **All Alerts** sub-tab you can see by scrolling down **No Rate Limit** and **Weak Authentication** alerts, which are API risk posture alerts
     - These are usually handled by API developers and security architects, who set up automated action rules to open Jira tickets when these things arise
@@ -139,7 +139,7 @@ Alert Tabs
 ![Alert Tabs](media/filter-tabs.jpg)
 
 - The **Alerts** page allows filtering the alters by type, entity type, service, etc. 
-- You can save the filters for future reference
+- You can save the filters for future reference/use
 - You can also share the filters with other users on the same tenant by sharing the link
 
 #### Exercise 2.9 - Comments on Alerts
@@ -164,7 +164,7 @@ Add Comment
 Posture Alerts
 ![Posture Alerts](media/posture-alerts.jpg)
 
-- Posture alerts relate to the APIs risk posture. They relate to the endpoint itself and not to a specific actor (user/ip/etc)
+- Posture alerts relate to the API risk posture. They relate to the endpoint itself and not to a specific actor (user/IP address/etc.)
 - In this example, the Akamai API Security platform detected an endpoint that wasn't previously known or documented (wasnt' loaded in the pre-configuration) but an activity was spotted against it. For example, it can be an internal endpoint that was built for the UI and someone did some spoofing or wild guess and tried to use it
 - In this case, this endpoint will be added to the discovery tab with a *Shadow Endpoint* alert
 
@@ -190,9 +190,9 @@ Entity Timeline
 
 - Alerts are investigated in the context of an entity
     - In this case, we pivoted to see the *Token Reuse* alert in the context of the *MerchantID* 388
-- The tob bar gives us information about the entity - its ID, the number of open alerts that triggered on it, its typical location, when the platform first and last saw activity from it, and the activity plotted on graphs
-- We see the entity's activity timeline, centered on the alert we pivoted to
-    - The timeline shows all of the user's behavior, before and after the alert, providing context for the investigation
+- The top bar gives us information about the entity - its ID, the number of open alerts that triggered on it, its typical location, when the platform first and last saw activity from it, and the activity plotted on graphs
+- We see the entity's activity timeline, centered on the alert to which we pivoted
+    - The timeline shows all of the user behavior, before and after the alert, providing context for the investigation
 - The *Token Reuse* alert is an analytics alert that detects account takeover - where the same access token is being used from several IP addresses at the same time
 - Looking at the timeline, we can see that an *Impossible Time Travel* alert also triggered, indicating that the same user is connected from two different countries
 - Scrolling further up (back in time) you see that *Abnormal Location* and *New Header ofr Resource* alerts have also triggered on this merchant
@@ -230,7 +230,7 @@ Data Scraping
 - The Akamai API Security platform has automatic remediation capabilities. We'll demonstrate remediation using the Kong API Gateway integration
 - We are displaying the additional headers added by Kong that enriches the request with the *user_id* and a hash of the API token
 - We can define an *Automated Action* rule that will automatically block IPs that will be marked with the *Data Scraping* alert
-- As you can see, after a delay of a few seconds, all of the data scraping requests from the IP 23.xxx are blocked (403)
+- As you can see, after a delay of a few seconds, all of the data scraping requests from the IP 23.xxx are blocked (HTTP 403)
 
 #### Exercise 2.15 - API Calls and Entities
 
@@ -239,8 +239,8 @@ Data Scraping
 
 ![API Calls and Entities](media/api-calls-and-entities.jpg)
 
-- Fore each call (request/response pair) you can see all details/parameters - ware are now looking at the first invoice that was accessed
-- Since all data is enriched - you can click on the entit ID value for any log and be redirected to that entity's timeline page
+- For each call (request/response pair) you can see all details/parameters - we are are now looking at the first invoice that was accessed
+- Since all data is enriched - you can click on the entity ID value for any log and be redirected to that entity's timeline page
 
 #### Exercise 2.16 - Business Entity
 
@@ -318,24 +318,23 @@ All senstive data is tokenized in the Akamai API Security Nodes on premises prio
 1. Click on the **Alerts** tab
 2. Filter on *Open Runtime* alerts
 3. Click on the three-dot icon at the end of the *Query Parameter Fuzzing* alert row for merchant 1c4c
-4. Click on the *investigate IP* option
+4. Click on the *Investigate IP* option
 
 ![Pen Test Story](media/pen-tester-story.jpg)
 
 - In this example, a pen-tester created two merchant IDs - 1c4c… and 9342… from the same IP, and then started penetration testing the APIs
 - The pen tester probed the API by sending bad inputs to query parameters, triggering a *Query Parameter Fuzzing* alert
-- The pen tester then attempted to break the authentication by trying various passwords for one of his account - a *Brute Force Authentication Attempt* alert triggered
+- The pen tester then attempted to break the authentication by trying various passwords for one of the accounts - a *Brute Force Authentication Attempt* alert triggered
 - The pen tester attempted to access an endpoint which few users have access to and is therefore assumed to be a privileged endpoint (BFLA)
 - Following that, the pen tester created two orders using two different users and successfully managed to access the order created by one user from the other user. This is an exploitation of a BOLA vulnerability, which triggered the *Suspicious Data Access* alert
-- Finally, as all these actions generated a lot of errors, an *Excessive Actor Errors* alert triggered on the IP address the pen tester used
-
+- Finally, as all these actions generated a lot of errors, an *Excessive Actor Errors* alert triggered on the IP address used by the pen tester
 #### Exercise 2.22 - Posture Alerts
 
 1. Click on the **Alerts** tab and then on the **Posture** sub-tab
 
 ![Posture Alerts Page](media/posture-alerts.jpg)
 
-- Posture Alerts are about your API's risk posture
+- Posture Alerts are about your API risk posture
 - Two of the posture alerts are of the Shadow API family:
     - Shadow Endpoint - accessing an undocumented endpoint
     - Shadow Parameter - using an undocumented enpoint parameter
