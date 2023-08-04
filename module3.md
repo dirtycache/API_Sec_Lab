@@ -5,8 +5,8 @@
 
 Resource enumeration enable attackers to find endpoints and increase the attack surface available to them. This could be done using small targeted word lists. In the lab below we will run this attack againt VAmPI, a industry standard vulnerable API. 
 
-1. We are going to use the fuzz list for this. We are using xer0dayz [xer0dayz' Github](https://github.com/1N3) which is located in the ~/API_Sec_Lab/IntruderPayloads/dirbuster-quick.txt
-2. Let's look how easy this is by looking at the script that we will run to execute this attack. Type the following command `cat ~/resource_enum.py`. The code should look like this:
+1. We are going to use the fuzz list for this. We are using a fuzz list from [xer0dayz Github](https://github.com/1N3), specifically ~/API_Sec_Lab/IntruderPayloads/dirbuster-quick.txt
+2. Let's examine how easy this is by looking at the script that we will run to execute this attack. Type the following command `cat ~/resource_enum.py`. The code should look like this:
 
         import requests
 
@@ -45,7 +45,7 @@ Resource enumeration enable attackers to find endpoints and increase the attack 
 
 ### Exercise 3.2 - Brute Force Login Endpoint
 
-In brute force attacks, malicious actors try to login to accounts using different passwords. The process use lists of username and password combinations in order to try and login as a valid user. For this exercise we will continue to use xer0dayz' toolkit for our username and password lists. 
+In brute force attacks, malicious actors try to login to accounts using different passwords. The process use lists of username and password combinations in order to try and login as a valid user. For this exercise we will continue to use the toolkit from xer0dayz for our username and password lists. 
 
 1. We are going to use the following files for our username and password list. Take a look at these either from the command line or in the GUI
         - ~/API_Sec_Lab/IntruderPayloads/usernames.txt
@@ -94,9 +94,9 @@ In brute force attacks, malicious actors try to login to accounts using differen
 
 ### Exercise 3.3 - Path Parameter Fuzzing
 
-Attackers fuzz path parameters in order to find whether the API is leaking information. The steps below generate requests in order to fuzz both {user_id} and {book_id} parameters. Follow the steps below to run this attack against VAmPI. This doesn't really even take programming to accomplish. 
+Attackers fuzz path parameters in order to find whether the API is leaking information. The steps below generate requests in order to fuzz both `{user_id}` and `{book_id}` parameters. Follow the steps below to run this attack against VAmPI. This doesn't really even take programming to accomplish. 
 
-##### Fuzzing the {user_id} parameter
+##### Fuzzing the `{user_id}` parameter
 
 1. As before we will utilize xer0dayz's username list for this exercise. This is located at `~/API_Sec_Lab/IntruderPayloads/usernames.txt`
 2. We will launch the attack with a shell script. Below is the code for review: 
@@ -109,7 +109,7 @@ Attackers fuzz path parameters in order to find whether the API is leaking infor
                 cd ~
                 ./user-id-fuzz.sh
 
-4. The output should look something like:
+4. The output should look like:
 
 > {"username": "admin", "email": "admin@mail.com"}  
 > { "status": "fail", "message": "User not found"}  
@@ -124,9 +124,9 @@ Attackers fuzz path parameters in order to find whether the API is leaking infor
 
 ![user-id Fuzzing in list](media/user-id-fuzz-large.jpg)
 
-##### Fuzzing the {book_id} parameter
+##### Fuzzing the `{book_id}` parameter
 
-1. We will be using a list of book names named booknames.txt located at `~/API_Sec_Lab/IntruderPayloads/booknames.txt`
+1. We will be using a list of book names: `~/API_Sec_Lab/IntruderPayloads/booknames.txt`
 2. This requires authentication so we will again utilize a shell script to run this attack. You can view the script at `~/book-id-fuzz.sh` and it looks like below:
 
                 !#/bin/bash
@@ -158,7 +158,7 @@ Attackers fuzz path parameters in order to find whether the API is leaking infor
 
 ### Exercise 3.4 - Mass Assignment
 
-In a Mass Assignment scenario, the client sends a request to an endpoint with additional JSON properties. Attackers often add JSON properties such as 'is_admin', 'role', etc. to bypass access controls. The script generates request to the register endpoint with additional JSON properties in order to try and register as an admin. Us the following steps to run this attack against VAmPI. 
+In a Mass Assignment scenario, the client sends a request to an endpoint with additional JSON properties. Attackers often add JSON properties such as `'is_admin'`, `'role'`, etc. to bypass access controls. The script generates request to the register endpoint with additional JSON properties in order to try and register as an admin. Us the following steps to run this attack against VAmPI. 
 
 1. From the command line run the following command:
 
