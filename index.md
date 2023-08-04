@@ -1,6 +1,6 @@
 # Akamai API Security with F5 Lab
 
-Welcome to WWT's Akamai API Security with F5 lab. The purpose of this lab is to demo the API security utilizing Akamai API Security and leveraging F5's BIG-IP LTM to capture the needed data and pass that to Akamai API Security.  
+Welcome to WWT's Akamai API Security with F5 lab. The purpose of this lab is to demonstrate the API security functionality of Akamai API Security.  This is accomplished by using an F5 BIG-IP LTM to capture the needed data and pass that data to Akamai API Security.  
 
 ## Getting Access
 
@@ -18,10 +18,11 @@ To access the lab, complete the following steps:
 
 The Lab is built around 3 networks as below:
 
-10.50.0.0/24 represents the `Management network`
-192.168.100.0/24 represents the `External network`; this represents the frontend data traffic
-192.168.200.0/24 represents the `Internal network`; this represents the backend data traffic
-Below you will find the diagram.
+10.50.0.0/24 - `Management network`
+192.168.100.0/24 -  `External network`; this represents the frontend data traffic
+192.168.200.0/24 -  `Internal network`; this represents the backend data traffic
+
+Below you will find the diagram:
 
 ![Akamai API Security Lab Diagram](media/akamai-lab-diagram-logical.jpg)
 
@@ -36,11 +37,11 @@ The list of VMs and network resources built into the lab are:
 - 2 x Docker Servers (Ubuntu Server 22.04)
     - Docker
     - VAmPI
-- 1 x Vyos Router (Ubuntu 18.04)
+- 1 x VyOS Router (Ubuntu 18.04)
 
 ## Login Credentials
 ---
-Below are the login credentials used to access the different resources contained within the lab:
+Login credentials used to access the different resources contained within the lab:
 
 |**Resource**|**IP Address**|**Username**|**Password**|**Access Protocol**|
 |---------------|---------------|------|-----------|---------------|
